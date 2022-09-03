@@ -33,3 +33,4 @@
 .App .list dl dt::before{content:'■';display:inline-block;vertical-align:top;margin:-1px 5px 0 0}
 .App .list dl dd{text-align:left;margin:10px 0px;padding-left:10px;}
 .App .list dl dd::before{content:'●';display:inline-block;vertical-align:top;margin:-1px 5px 0 0;}
+.popup{margin-top:20px;padding:20px;background-color:#eee;text-align:left;}

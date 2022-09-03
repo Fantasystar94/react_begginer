@@ -50,7 +50,20 @@ function App() {
           <dd>8월 30일 발행</dd>
         </dl>
       </div>
+
+     <Popup/>
     </div>
+  );
+}
+//component
+const Popup = ()=>{
+  const date = new Date();
+  return(
+    <div className='popup'>
+    <h4>제목</h4>
+    <p>날짜</p>
+    <p>상세내용</p>
+  </div>
   );
 }
 
