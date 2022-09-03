@@ -4,8 +4,12 @@ import {useState} from 'react';
 let bool = true;
 function App() {
   let post = '리액트로 블로그 만드는 프로젝트';
-  let [blogTitle,changeTitle] = useState(['남자 코트 추천','강남 우동 맛집','22FW 신상']);
-  let [goodNum,addGood] = useState(0);
+  let [blogTitle,changeTitle] = useState(['남자 코트 추천','강남 우동 맛집','22FW 신상','새로운 타이틀1','새로운 타이틀2']);
+  let [goodNum,addGood] = useState([...blogTitle].map(function(){
+    return 0;
+  }));
+  let [popup,setPopup] = useState(false); 
+  let [title,setTitle] = useState(0);
   return (
     <div className="App">
       <div className='header'>
@@ -37,34 +41,37 @@ function App() {
         changeTitle(copy)}}>
           제목 바꾸기</button>
       <div className='list'>
-        <dl>
-          <dt>{blogTitle[0]}</dt>
-          <dd>8월 30일 발행 <div className='btn_area'><button onClick={()=>addGood(goodNum+1)}>👍</button> <span>{goodNum}</span></div></dd>
-        </dl>
-        <dl>
-          <dt>{blogTitle[1]}</dt>
-          <dd>8월 30일 발행</dd>
-        </dl>
-        <dl>
-          <dt>{blogTitle[2]}</dt>
-          <dd>8월 30일 발행</dd>
-        </dl>
-      </div>
+        {
+          [...blogTitle].map(function(a,b){
+            return  (
+            <dl key={b}>
+            <dt onClick={()=>{setPopup(!popup);setTitle(b)}}>{blogTitle[b]}</dt>
+            <dd>8월 30일 발행 <div className='btn_area'><button onClick={()=>{let copy = [...goodNum]; copy[b]=copy[b]+1; addGood(copy)}}>👍</button> <span>{goodNum[b]}</span></div></dd>
+            </dl>
+            )
+          })
 
-     <Popup/>
+        }
+      </div>
+        {
+          // 삼항 연산자 ==> 조건식 ? 참일때 실행할 코드 : 거짓일 때 실행할 코드 
+          popup==true ? <Popup blogTitle={blogTitle} popup={popup} setPopup={setPopup} changeTitle={changeTitle} title={title}/>: null
+        }
     </div>
   );
 }
 //component
-const Popup = ()=>{
-  const date = new Date();
-  return(
-    <div className='popup'>
-    <h4>제목</h4>
-    <p>날짜</p>
-    <p>상세내용</p>
-  </div>
-  );
+const Popup = (props)=>{
+      return(
+        <div className='popup'>
+        <h4>{props.blogTitle[props.title]}</h4>
+        <p>날짜</p>
+        <p>상세내용</p>
+        <button onClick={()=>{props.setPopup(!props.popup)}} className='close'>X</button>
+        <button>글 수정</button>
+        </div>
+      );
+
 }
 
 export default App;
